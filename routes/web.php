@@ -25,4 +25,7 @@ Auth::routes();
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->name('admin.')->group(function() {
     //rotta home admin routes
     Route::get('/', 'HomeController@index')->name('home');
+
+    //rotte resource
+    Route::resource('/posts', 'PostController');
 });
