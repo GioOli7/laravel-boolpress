@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Post;
 
 class PostController extends Controller
@@ -29,6 +31,8 @@ class PostController extends Controller
     public function create()
     {
         //
+
+        return view('admin.posts.create');
     }
 
     /**
@@ -40,6 +44,24 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            'title' => 'required|unique:posts|max:255',
+            'content' => 'required',
+        ]);
+
+        $data = $request->all();
+
+        $new_post = new Post();
+
+        $data['slug'] = Str::slug($data['title'], '-');
+
+        $new_post->fill($data);
+        
+        $new_post->save();
+
+        return redirect()->route('admin.posts.show', $new_post->id);
+
     }
 
     /**
@@ -67,6 +89,8 @@ class PostController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::find($id);
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -78,7 +102,28 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // validation
+        $request->validate([
+            'title' => ['required',
+            Rule::unique('posts')->ignore($id),
+            'max:255'
+        ],
+            'content' => 'required',
+        ], [
+            'required' => 'The :attribute is required, so...',
+            'unique' => 'There is already another post with the title :attribute',
+            'max' => 'Max :max characters allowed for the :attribute'
+        ]);
+
+        $data = $request->all();
+
+        $post = Post::find($id);
+
+        $data['slug'] = Str::slug($data['title'], '-');
+
+        $post->update($data); //fillable in model!!
+
+        return redirect()->route('admin.posts.show', $post->id);
     }
 
     /**
@@ -87,8 +132,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
         //
+        $post->delete();
+
+        return redirect()->route('admin.posts.index')->with('deleted', $post->title);
     }
 }
