@@ -22,12 +22,33 @@
 
             <div class="mt-3" >
                 <label for="title">Title</label>
-                <input type="text" name="title" id="title" value="{{ old('title') }}">
+                <input class="form-control @error('title') is-invalid @enderror"  type="text" name="title" id="title" value="{{ old('title') }}">
+                @error('title')
+                    <div class="feedback">{{ $message }}</div>
+                @enderror
             </div>
             
             <div class="mt-3">
-                <label for="description">Content</label>
-                <textarea name="content" id="content" rows="6">{{ old('content') }}</textarea>
+                <label for="content">Content</label>
+                <textarea class="form-control @error('content') is-invalid @enderror"  name="content" id="content" rows="6">{{ old('content') }}</textarea>
+                @error('content')
+                    <div class="feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mt-3">
+                <label for="category_id">Category</label>
+                <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id">
+                    <option value="">-- Select category --</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}"
+                            @if($category->id == old('category_id')) selected @endif
+                            >{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <div class="feedback">{{ $message }}</div>
+                @enderror
             </div>
 
 

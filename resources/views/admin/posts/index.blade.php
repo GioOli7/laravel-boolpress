@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <td>ID</td>
+                    <td>Category</td>
                     <td>Title</td>
                     <td colspan="3">Action</td>
                 </tr>
@@ -25,6 +26,11 @@
                 @foreach ($posts as $post)
                     <tr>
                         <td>{{ $post->id }}</td>
+                        <td>
+                            @if ($post->category)
+                                {{$post->category->name}}
+                            @endif
+                        </td>
                         <td>{{ $post->title }}</td>
                         <td>
                             <a class="btn btn-primary" href="{{ route('admin.posts.show', $post->id) }}">SHOW</a>

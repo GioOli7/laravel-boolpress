@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Post;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -19,8 +20,9 @@ class PostController extends Controller
     {
         //
         $posts = Post::all();
+        $categories = Category::all();
 
-        return view('admin.posts.index', compact('posts'));
+        return view('admin.posts.index', compact('posts', 'categories'));
     }
 
     /**
@@ -31,8 +33,9 @@ class PostController extends Controller
     public function create()
     {
         //
+        $categories = Category::all();
 
-        return view('admin.posts.create');
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -48,6 +51,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|unique:posts|max:255',
             'content' => 'required',
+            'category_id' => 'nullable|exists:categories,id'
         ]);
 
         $data = $request->all();
@@ -90,7 +94,8 @@ class PostController extends Controller
     {
         //
         $post = Post::find($id);
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -109,6 +114,7 @@ class PostController extends Controller
             'max:255'
         ],
             'content' => 'required',
+            'category_id' => 'nullable|exists:categories,id'
         ], [
             'required' => 'The :attribute is required, so...',
             'unique' => 'There is already another post with the title :attribute',
