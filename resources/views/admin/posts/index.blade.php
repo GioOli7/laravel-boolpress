@@ -56,11 +56,13 @@
         @foreach ($categories as $category)
             <h5 class="mt-4">{{ $category->name }}</h5>
             {{-- <span>{{  }}</span> --}}
-            @if ($category->posts)
-                @foreach ($category->posts as $post)
-                    <div><a href="{{ route('admin.posts.show', $post->id) }}">{{ $post->title }}</a></div>
-                @endforeach
-            @endif
+            
+            @forelse ($category->posts as $post)
+                <div><a href="{{ route('admin.posts.show', $post->id) }}">{{ $post->title }}</a></div>
+            @empty
+                No posts found for this category. <a href="{{ route('admin.posts.create') }}">Create a new one</a> 
+            @endforelse
+         
         @endforeach
     </div>
 @endsection
