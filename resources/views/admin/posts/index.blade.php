@@ -50,5 +50,17 @@
                 @endforeach
             </tbody>
         </table>
+
+        {{-- get posts by category --}}
+        <h2>Post by Category</h2>
+        @foreach ($categories as $category)
+            <h5 class="mt-4">{{ $category->name }}</h5>
+            {{-- <span>{{  }}</span> --}}
+            @if ($category->posts)
+                @foreach ($category->posts as $post)
+                    <div><a href="{{ route('admin.posts.show', $post->id) }}">{{ $post->title }}</a></div>
+                @endforeach
+            @endif
+        @endforeach
     </div>
 @endsection
