@@ -158,7 +158,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        //pulizia orfani da tabella pivot
+        $post->tag()->detach();
+
+        // remove
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('deleted', $post->title);
