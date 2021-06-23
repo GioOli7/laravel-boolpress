@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     {{-- EDIT --}}
-    <div class="mb-1">
+    <div class="mb-4">
         <a class="btn btn-warning" href="{{ route('admin.posts.edit', $post->id) }}">Edit</a>
     </div>
 
@@ -14,7 +14,7 @@
     {{-- CATEGORY --}}
     @if ($post->category)
         <div>
-            <span class="mt-1">Category: </span>
+            <span>Category: </span>
             <div class="badge badge-success p-1">{{$post->category->name}}</div>
         </div>
     @endif

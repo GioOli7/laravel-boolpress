@@ -104,7 +104,8 @@ class PostController extends Controller
         //
         $post = Post::find($id);
         $categories = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -123,7 +124,8 @@ class PostController extends Controller
             'max:255'
         ],
             'content' => 'required',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id'
         ], [
             'required' => 'The :attribute is required, so...',
             'unique' => 'There is already another post with the title :attribute',
@@ -137,6 +139,13 @@ class PostController extends Controller
         $data['slug'] = Str::slug($data['title'], '-');
 
         $post->update($data); //fillable in model!!
+
+        // pivot table relation update
+        if(array_key_exists('tags', $data)) {
+            $post->tag()->sync($data['tags']); //sync, ma non elimina
+        } else {
+            $post->tag()->detach(); //elimina
+        }
 
         return redirect()->route('admin.posts.show', $post->id);
     }

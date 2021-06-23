@@ -45,6 +45,28 @@
                 @enderror
             </div>
 
+            <h4 class="mb-2 mt-3">Tags</h4>
+            {{-- @dd($post->tag) --}}
+            <div>
+                @foreach ($tags as $tag)
+                    <span class="mr-3 d-inline-block">
+                        <input type="checkbox" name="tags[]" id="tag{{ $loop->iteration }}" value="{{ $tag->id }}"
+                            @if ($errors->any() && in_array($tag->id, old('tags'))) 
+                                checked 
+                            @elseif (!$errors->any() && $post->tag->contains($tag->id))
+                                checked
+                            @endif
+                        >
+                        <label for="tag{{ $loop->iteration }}">
+                            {{ $tag->name }}
+                        </label>
+                    </span>               
+                @endforeach
+                @error('tags')
+                    <div>{{ $message }}</div>
+                @enderror
+            </div>
+
 
             <div class="mt-3">
                 <button class="btn btn-primary" type="submit">INVIA</button>
