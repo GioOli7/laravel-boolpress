@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//
-Route::get('/', function () {
-    return view('guest.welcome');
-});
 
 Auth::routes();
 
@@ -25,7 +21,12 @@ Auth::routes();
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->name('admin.')->group(function() {
     //rotta home admin routes
     Route::get('/', 'HomeController@index')->name('home');
-
+    
     //rotte resource
     Route::resource('/posts', 'PostController');
 });
+
+// home
+Route::get('{any?}', function () {
+    return view('guest.home');
+})->where('any', '.*');
