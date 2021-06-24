@@ -19,6 +19,7 @@
                     <td>ID</td>
                     <td>Category</td>
                     <td>Title</td>
+                    <td>Create</td>
                     <td colspan="3">Action</td>
                 </tr>
             </thead>
@@ -32,6 +33,10 @@
                             @endif
                         </td>
                         <td>{{ $post->title }}</td>
+                        <td>
+                            <div>{{ $post->created_at->format('l d/m/y') }}</div> {{-- carbon date formatter --}}
+                            <div>{{ $post->created_at->diffForHumans() }}</div> {{-- carbon date formatter --}}
+                        </td>
                         <td>
                             <a class="btn btn-primary" href="{{ route('admin.posts.show', $post->id) }}">SHOW</a>
                         </td>
