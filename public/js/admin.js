@@ -37349,7 +37349,18 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // consol
  * delete post confirm
  *
  */
-// const delForm = document.querySelectorAll(".delete-post-form");
+
+
+var delForm = document.querySelectorAll(".delete-post-form");
+delForm.forEach(function (form) {
+  form.addEventListener("submit", function (e) {
+    var resp = confirm("Are you sure you want to delete this post?");
+
+    if (!resp) {
+      e.preventDefault();
+    }
+  });
+});
 
 /***/ }),
 
