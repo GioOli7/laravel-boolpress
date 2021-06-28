@@ -1,32 +1,33 @@
 <template>
     <div class="container">
         <div v-if="post">
-            <h2>{{ post.title }}</h2>
-            <div class="category">
-                Category: <strong> {{ post.category.name }} </strong>
-            </div>
-
-            <div>
-                <span
-                    class="tag"
-                    v-for="tag in post.tag"
-                    :key="`tag-${tag.id}`"
-                    >{{ tag.name }}</span
-                >
-            </div>
-
-            <p>{{ post.content }}</p>
+            <Title :post="post" />
+            <Category v-if="post.category" :post="post" />
+            <Tag :post="post" />
+            <Content :post="post" />
         </div>
-        <div v-else>
-            loading...
-        </div>
+
+        <Loading v-else />
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import Title from "../components/Title.vue";
+import Category from "../components/Category.vue";
+import Tag from "../components/Tag.vue";
+import Content from "../components/Content.vue";
+import Loading from "../components/Loading.vue";
+
 export default {
     name: "PostDetail",
+    components: {
+        Title,
+        Category,
+        Tag,
+        Content,
+        Loading
+    },
     data() {
         return {
             post: null
@@ -53,16 +54,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.category {
-    margin-bottom: 10px;
-}
-
-.tag {
-    margin-right: 10px;
-    padding: 3px;
-    border-radius: 10px;
-    background-color: dodgerblue;
-    color: white;
-}
-</style>
+<style lang="scss" scoped></style>
