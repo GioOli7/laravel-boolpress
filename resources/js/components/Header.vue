@@ -26,5 +26,8 @@ export default {
 <style lang="scss" scoped>
 header {
     background-color: lightblue;
+    .active {
+        color: red;
+    }
 }
 </style>
