@@ -1,31 +1,19 @@
 <template>
     <div class="container">
-        <div v-if="post">
-            <Title :post="post" />
-            <Category v-if="post.category" :post="post" />
-            <Tag :post="post" />
-            <Content :post="post" />
-        </div>
-
+        <Post v-if="post" :post="post" />
         <Loading v-else />
     </div>
 </template>
 
 <script>
 import axios from "axios";
-import Title from "../components/Title.vue";
-import Category from "../components/Category.vue";
-import Tag from "../components/Tag.vue";
-import Content from "../components/Content.vue";
+import Post from "../components/Post.vue";
 import Loading from "../components/Loading.vue";
 
 export default {
     name: "PostDetail",
     components: {
-        Title,
-        Category,
-        Tag,
-        Content,
+        Post,
         Loading
     },
     data() {
